@@ -6,7 +6,7 @@ pip install python-dotenv
 ```
 2. Создаём файл .env в корневой директории вашего проекта:
 ```diff
-(Сразу же добавляем файл .env в .gitignore)
+- (Сразу же добавляем файл .env в .gitignore)
 ```
 ```python
 USER=your_username
