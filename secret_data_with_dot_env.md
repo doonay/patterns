@@ -5,27 +5,28 @@
 pip install python-dotenv
 ```
 2. Создаём файл .env в корневой директории вашего проекта:
+```diff
+(Сразу же добавляем файл .env в .gitignore)
+```
 ```python
 USER=your_username
 PASSWORD=your_password
 API_KEY=your_api_key
 ```
-3. Добавляем файл .env в .gitignore.
-
-4. Загружаем переменные окружения из файла .env в вашем скрипте:
+3. Загружаем переменные окружения из файла .env в вашем скрипте:
 ```python
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 ```
-5. Получаем значения переменных
+4. Получаем значения переменных
 ```python
 user = os.getenv("USER")
 password = os.getenv("PASSWORD")
 api_key = os.getenv("API_KEY")
 ```
-Пример использования:<br>
+5. Пример использования:
 ```python
 print(f"Привет, {user}! Твой API ключ: {api_key}")
 ```
