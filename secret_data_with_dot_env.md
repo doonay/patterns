@@ -1,8 +1,9 @@
 # Шпаргалка по хранению секретных данных в .env
 
 1. Устанавливаем библиотеку:<br>
+```python
 pip install python-dotenv
-
+```
 2. Создаём файл .env в корневой директории вашего проекта:<br>
 USER=your_username<br>
 PASSWORD=your_password<br>
