@@ -1,0 +1,52 @@
+Как поставить libtorrent на винду.
+Смотрим версию своего текущего питона:
+python -V # у меня 3.12.9
+
+Cмотрим разрядность своего компуктера:
+python -c "import struct; print(struct.calcsize('P') * 8)"  #у меня 64
+
+Идём и качаем нужное колесо libtorrent последней версии:
+https://pypi.tuna.tsinghua.edu.cn/simple/libtorrent/
+(у меня libtorrent-2.0.11-cp312-cp312-win_amd64.whl)
+
+Ставим колесо:
+pip install libtorrent-2.0.11-cp312-cp312-win_amd64.whl 
+
+Тестим:
+import libtorrent
+print(dir(libtorrent))
+
+АГА! Ошибка с ненаходом DLL-файлов! (Ошибка "DLL load failed")
+
+Process Monitor можно использовать для проверки того, к каким библиотекам DLL пытается получить доступ Python.
+В нём надо выставить фильтр на python.exe и искать по тем, к кому не получилось обратиться.
+Качаем, распаковываем и запускаем свою версию:
+https://learn.microsoft.com/en-us/sysinternals/downloads/procmon
+
+Но скорее всего не хватает двух файлов:
+libcrypto-1_1-x64.dll
+libssl-1_1-x64.dll
+
+Их я нашел просто запустив поиск по всему компьютеру
+(Например эти файлы есть в Qt5, Sublime Text и других)
+
+Эти два файла кладем в:
+C:\Users\doonay\AppData\Local\Programs\Python\Python312\Lib\site-packages\libtorrent
+Ну или сначала смотрим, где у нас лежит питон + (Lib\site-packages\libtorrent):
+where python
+(у меня в C:\Users\doonay\AppData\Local\Programs\Python\Python312\python.exe)
+
+===== Что еще может пригодиться ======
+Похоже, отсутствующие библиотеки DLL могут быть:
+libcrypto-1_1-x64.dll
+libssl-1_1-x64.dll
+msvcp140.dll
+iphlpapi.dll
+wsock32.dll
+
+Я решил проблему, скопировав файл libcrypto-1_1-x64.dll из libssl-1_1-x64.dll.
+Эти файлы я просто поискал на моей машине, они вообще от pyQt/
+
+Вероятно, остальные файлы уже есть C:\Windows\System32, однако на одном из моих ПК их не было msvcp140.dll, и их можно установить с помощью Microsoft Visual C++ Redistributable для Visual Studio 2015, 2017 и 2019 .
+https://aka.ms/vs/17/release/vc_redist.x64.exe
+
